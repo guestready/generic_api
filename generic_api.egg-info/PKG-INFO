@@ -5,7 +5,7 @@ Summary: A Django app to request external API endpoints.
 Home-page: UNKNOWN
 Author: Quentin MORTIER
 Author-email: quentin.mortier@guestready.com
-License: BSD-2-Clause  # Example license
+License: BSD-2-Clause
 Description: ===========
         Generic API
         ===========
@@ -73,8 +73,7 @@ Description: ===========
         
 Platform: UNKNOWN
 Classifier: Environment :: Web Environment
-Classifier: Framework :: Django
-Classifier: Framework :: Django :: 2.2  # Replace "X.Y" as appropriate
+Classifier: Framework :: Django :: 2.2
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: BSD License
 Classifier: Operating System :: OS Independent
