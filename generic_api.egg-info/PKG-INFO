@@ -1,0 +1,88 @@
+Metadata-Version: 1.1
+Name: generic-api
+Version: 0.1
+Summary: A Django app to request external API endpoints.
+Home-page: UNKNOWN
+Author: Quentin MORTIER
+Author-email: quentin.mortier@guestready.com
+License: BSD-2-Clause  # Example license
+Description: ===========
+        Generic API
+        ===========
+        
+        Polls is a Django app to reach external APIs by mirroring DRF architecture.
+        
+        Quick start
+        -----------
+        
+        1. Add "generic_api" to your INSTALLED_APPS setting like this::
+        
+            INSTALLED_APPS = [
+                ...
+                'generic_api',
+            ]
+        
+        2. Create your session class that will hold the authentication and the base URL:
+        
+            from generic_api.session import ConstanceSession
+        
+        
+            class MySession(ConstanceSession):
+                base_url = 'https://baseurl/v1/'
+                constance_key = 'MY_TOKEN'
+        
+        3. Create the client that will perform the queries:
+        
+            from generic_api.errors_handler import HttpErrorsHandler
+            from generic_api.generics import GenericClient
+        
+        
+            class MyClient(GenericClient):
+                session_class = MySession
+                errors_handler_class = HttpErrorsHandler
+        
+        4. Create the serializers for requests and responses:
+        
+            class MyRequestSerializer(serializers.Serializer):
+                name = serializers.CharField()
+        
+            class MyResponseSerializer(serializers.Serializer):
+                id = serializer.IntegerField()
+        
+        Those are used to valid the request performed and the response received. If allows to detect quickly if something
+        changed on the remote API
+        
+        5. Create your endpoint:
+        
+            from generic_api.endpoints import GetEndpoint
+        
+            class MyEndpointEndpoint(GetEndpoint):
+                endpoint_url = 'search/by_name'  # This can take argument, like endpoint_url: '{}/list'
+                client_class = MyClient
+                response_entity_class = MyResponseSerializer
+                request_entity_class = MyRequestSerializer
+        
+        If your serializer are ModelSerializer, the object can be saved.
+        
+        6. Use the endpoint:
+        
+               endpoint = MyEndpoint()
+        
+                data = endpoint.get(\*\*kwargs)
+                data = data.save()
+        
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 2.2  # Replace "X.Y" as appropriate
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
