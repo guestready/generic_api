@@ -62,3 +62,6 @@ If your serializer are ModelSerializer, the object can be saved.
 
         data = endpoint.get(\*\*kwargs)
         data = data.save()
+
+
+This project is available on GitHub: https://github.com/guestready/generic_api
