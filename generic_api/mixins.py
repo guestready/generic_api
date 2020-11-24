@@ -1,7 +1,5 @@
 from urllib.parse import urljoin
 
-from utilities.slack_tools import slack_wrapper
-
 
 class RequestValidationMixin:
     """
@@ -97,32 +95,8 @@ class PostRequestMixin(RequestValidationMixin, ResponseValidationMixin):
     def post_request(self, *args, **kwargs):
         client = self.get_client()
         endpoint = urljoin(client.get_base_url(), self.get_endpoint_url())
-
-        try:
-            request_data = self.validate_request(data=kwargs)
-        except Exception as e:
-            slack_wrapper.send_message(
-                text=f"Failed validate request: {e}, kwargs: {kwargs}",
-                channel='it-payout-notifications'
-            )
-            raise e
-
-        try:
-            data = client.post(endpoint, request_data)
-        except Exception as e:
-            slack_wrapper.send_message(
-                text=f"Failed post data: {e}, request_data: {request_data}",
-                channel='it-payout-notifications'
-            )
-            raise e
-
-        try:
-            serializer = self.validate_response(data=data)
-        except Exception as e:
-            slack_wrapper.send_message(
-                text=f"Failed PostRequestMixin: {e}, response: {data}",
-                channel='it-payout-notifications'
-            )
-            raise e
+        request_data = self.validate_request(data=kwargs)
+        data = client.post(endpoint, request_data)
+        serializer = self.validate_response(data=data)
 
         return serializer
